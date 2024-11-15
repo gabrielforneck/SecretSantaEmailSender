@@ -1,18 +1,18 @@
-﻿using System.Data.Common;
+﻿using System.Data;
 using System.Data.SQLite;
 
 namespace SecretSantaEmailSender.Core.Database.Handler;
 
-public abstract class DatabaseConnectionHandler : IDisposable
+public abstract class DatabaseConnectionHandler : IDisposable, IDatabaseConnectionHandler
 {
-    public DbConnection Connection => _connection;
-    public DbTransaction? Transaction => _transaction;
+    public IDbConnection Connection => _connection;
+    public IDbTransaction? Transaction => _transaction;
     public bool InTransaction => _inTransaction;
     public string ConnectionString => _connectionString;
 
     private readonly string _connectionString;
-    private readonly DbConnection _connection;
-    private DbTransaction? _transaction;
+    private readonly SQLiteConnection _connection;
+    private SQLiteTransaction? _transaction;
     private bool _inTransaction;
 
     public DatabaseConnectionHandler(string connectionString)
@@ -34,10 +34,9 @@ public abstract class DatabaseConnectionHandler : IDisposable
         _inTransaction = false;
     }
 
-    public async Task CommitAsync(CancellationToken cancellationToken)
+    public async Task CommitAsync(CancellationToken? cancellationToken = null)
     {
-        if (_transaction != null)
-            await _transaction.CommitAsync(cancellationToken);
+        await _transaction!.CommitAsync(cancellationToken ?? CancellationToken.None);
 
         _inTransaction = false;
     }
@@ -48,10 +47,9 @@ public abstract class DatabaseConnectionHandler : IDisposable
         _inTransaction = false;
     }
 
-    public async Task RollbackAsync(CancellationToken cancellationToken)
+    public async Task RollbackAsync(CancellationToken? cancellationToken = null)
     {
-        if (_transaction == null)
-            await _transaction.RollbackAsync(cancellationToken);
+        await _transaction!.RollbackAsync(cancellationToken ?? CancellationToken.None);
 
         _inTransaction = false;
     }
