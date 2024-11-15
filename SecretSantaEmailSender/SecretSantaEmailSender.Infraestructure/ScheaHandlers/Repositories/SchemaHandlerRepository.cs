@@ -74,7 +74,7 @@ public class SchemaHandlerRepository : ISchemaHandlerRepository
 
     public async Task CreateSecretFriendsRafflesAndFriendsUniqueIndex()
     {
-        const string sql = @"create unique index if not exists secret_friends_01_idx on friends (raffle_id, friend_id)";
+        const string sql = @"create unique index if not exists secret_friends_01_idx on secret_friends (raffle_id, friend_id)";
 
         var command = new CommandDefinition(sql, transaction: LocalDatabase.Transaction);
         await LocalDatabase.Connection.ExecuteAsync(command);
@@ -82,7 +82,7 @@ public class SchemaHandlerRepository : ISchemaHandlerRepository
 
     public async Task CreateSecretFriendsRafflesAndSecretFriendsUniqueIndex()
     {
-        const string sql = @"create unique index if not exists secret_friends_02_idx on friends (raffle_id, secret_friend_id)";
+        const string sql = @"create unique index if not exists secret_friends_02_idx on secret_friends (raffle_id, secret_friend_id)";
 
         var command = new CommandDefinition(sql, transaction: LocalDatabase.Transaction);
         await LocalDatabase.Connection.ExecuteAsync(command);
