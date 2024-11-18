@@ -52,4 +52,6 @@ public class SecretSantasHandler : IRequestHandler<CreateSecretSantaCommand, Res
 
         return Result.Success();
     }
+
+    //TODO: Criar delete quando todos os repositories tiverem sido feitos
 }
