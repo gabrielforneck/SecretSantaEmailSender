@@ -4,16 +4,18 @@ using SecretSantaEmailSender.Core.Results;
 
 namespace SecretSantaEmailSender.Application.SecretSantas.Commands;
 
-public class CreateSecretSantaCommand : IRequest<Result>
+public class UpdateSecretSantaCommand : IRequest<Result>
 {
+    public long ID { get; set; }
     public string? Icon { get; set; }
     public string Name { get; set; }
     public EEmailDesignType EmailDesignType { get; set; }
     public string EmailDesign { get; set; }
     public string LinkPlaceholder { get; set; }
 
-    public CreateSecretSantaCommand(string? icon, string name, EEmailDesignType emailDesignType, string emailDesign, string linkPlaceholder)
+    public UpdateSecretSantaCommand(long iD, string? icon, string name, EEmailDesignType emailDesignType, string emailDesign, string linkPlaceholder)
     {
+        ID = iD;
         Icon = icon;
         Name = name;
         EmailDesignType = emailDesignType;
@@ -23,6 +25,9 @@ public class CreateSecretSantaCommand : IRequest<Result>
 
     public Result Validate()
     {
+        if (ID <= 0)
+            return Result.Failure("ID do amigo secreto inválido.");
+
         if (string.IsNullOrWhiteSpace(Name))
             return Result.Failure("Nome inválido.");
 

@@ -24,4 +24,13 @@ public class SecretSanta
     }
 
     public static SecretSanta Create(string? icon, string name, EEmailDesignType emailDesignType, string emailDesign, string linkPlaceholder) => new(0, icon, name, DateTime.Now, emailDesignType, emailDesign, linkPlaceholder);
+
+    public void Update(string? icon, string name, EEmailDesignType emailDesignType, string emailDesign, string linkPlaceholder)
+    {
+        Icon = icon;
+        Name = name;
+        EmailDesignType = emailDesignType;
+        EmailDesign = emailDesign;
+        LinkPlaceholder = linkPlaceholder;
+    }
 }
