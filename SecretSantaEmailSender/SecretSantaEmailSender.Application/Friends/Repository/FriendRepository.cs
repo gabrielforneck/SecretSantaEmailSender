@@ -13,15 +13,43 @@ public class FriendRepository : IFriendRepository
         LocalDatabase = localDatabase;
     }
 
+    public async Task<Friend?> GetByID(long iD, CancellationToken cancellationToken)
+    {
+        const string sql = @"select id as ID,
+                                    secret_santa_id as SecretSantaID,
+                                    name as Name,
+                                    email as Email,
+                                    destination_link as DestinationLink
+                               from friends
+                              where id = @iD";
+
+        var command = new CommandDefinition(sql, new { iD }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        return await LocalDatabase.Connection.QuerySingleOrDefaultAsync<Friend>(command);
+    }
+
     public async Task Insert(Friend friend, CancellationToken cancellationToken)
     {
         const string sql = @"insert into friends (secret_santa_id,
                                                   name,
                                                   email,
                                                   destination_link)
-                                          values (@Name,
+                                          values (@SecretSantaID,
+                                                  @Name,
                                                   @Email,
                                                   @DestinationLink)";
+
+        var command = new CommandDefinition(sql, friend, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        await LocalDatabase.Connection.ExecuteAsync(command);
+    }
+
+    public async Task Update(Friend friend, CancellationToken cancellationToken)
+    {
+        const string sql = @"update friends
+                                set secret_santa_id = @SecretSantaID,
+                                    name = @Name,
+                                    email = @Email,
+                                    destination_link = @DestinationLink)
+                              where id = @ID";
 
         var command = new CommandDefinition(sql, friend, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
         await LocalDatabase.Connection.ExecuteAsync(command);
