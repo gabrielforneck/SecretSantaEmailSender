@@ -54,4 +54,13 @@ public class FriendRepository : IFriendRepository
         var command = new CommandDefinition(sql, friend, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
         await LocalDatabase.Connection.ExecuteAsync(command);
     }
+
+    public async Task Delete(long iD, CancellationToken cancellationToken)
+    {
+        const string sql = @"delete from friends
+                              where id = @iD";
+
+        var command = new CommandDefinition(sql, new { iD }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        await LocalDatabase.Connection.ExecuteAsync(command);
+    }
 }

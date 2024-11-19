@@ -2,20 +2,23 @@
 using SecretSantaEmailSender.Application.Friends.Commands;
 using SecretSantaEmailSender.Application.Friends.Domain;
 using SecretSantaEmailSender.Application.Friends.Repository;
+using SecretSantaEmailSender.Application.SecretFriends.Repository;
 using SecretSantaEmailSender.Application.SecretSantas.Repository;
 using SecretSantaEmailSender.Core.Results;
 
 namespace SecretSantaEmailSender.Application.Friends.Handlers;
 
-public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IRequestHandler<UpdateFriendCommand, Result>
+public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IRequestHandler<UpdateFriendCommand, Result>, IRequestHandler<DeleteFriendCommand, Result>
 {
     private readonly ISecretSantaRepository _secretSantaRepository;
     private readonly IFriendRepository _friendRepository;
+    private readonly ISecretFriendRepository _secretFriendRepository;
 
-    public FriendsHandler(ISecretSantaRepository secretSantaRepository, IFriendRepository friendRepository)
+    public FriendsHandler(ISecretSantaRepository secretSantaRepository, IFriendRepository friendRepository, ISecretFriendRepository secretFriendRepository)
     {
         _secretSantaRepository = secretSantaRepository;
         _friendRepository = friendRepository;
+        _secretFriendRepository = secretFriendRepository;
     }
 
     public async Task<Result> Handle(AddFriendCommand request, CancellationToken cancellationToken)
@@ -56,6 +59,24 @@ public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IReques
         await _friendRepository.Update(friend, cancellationToken);
 
         await _friendRepository.LocalDatabase.CommitAsync(cancellationToken);
+
+        return Result.Success();
+    }
+
+    public async Task<Result> Handle(DeleteFriendCommand request, CancellationToken cancellationToken)
+    {
+        var validationResult = request.Validate();
+        if (validationResult.IsFilure)
+            return validationResult;
+
+        _friendRepository.LocalDatabase.Begin();
+
+        await _secretFriendRepository.DeleteByFriendID(request.ID, cancellationToken);
+        await _secretFriendRepository.DeleteBySecretFriendID(request.ID, cancellationToken);
+
+        await _friendRepository.Delete(request.ID, cancellationToken);
+
+        await _friendRepository.LocalDatabase.CommitAsync();
 
         return Result.Success();
     }
