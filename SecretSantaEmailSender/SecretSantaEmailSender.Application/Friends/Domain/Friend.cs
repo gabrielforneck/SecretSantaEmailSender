@@ -7,11 +7,13 @@ public class Friend
     public string Email { get; set; }
     public string DestinationLink { get; set; }
 
-    public Friend(long iD, string name, string email, string presentSuggestions)
+    private Friend(long iD, string name, string email, string presentSuggestions)
     {
         ID = iD;
         Name = name;
         Email = email;
         DestinationLink = presentSuggestions;
     }
+
+    public static Friend Create(string name, string email, string destinationLink) => new(0, name, email, destinationLink);
 }

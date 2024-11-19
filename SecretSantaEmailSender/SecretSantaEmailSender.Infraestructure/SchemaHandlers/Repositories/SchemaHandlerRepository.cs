@@ -42,7 +42,7 @@ public class SchemaHandlerRepository : ISchemaHandlerRepository
                                  secret_santa_id integer not null references secret_santas (id),
                                  name text not null,
                                  email text not null,
-                                 destination_url not null)";
+                                 destination_link text not null)";
 
         var command = new CommandDefinition(sql, transaction: LocalDatabase.Transaction);
         await LocalDatabase.Connection.ExecuteAsync(command);
