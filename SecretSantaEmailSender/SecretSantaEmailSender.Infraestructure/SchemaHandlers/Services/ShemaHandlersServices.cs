@@ -1,4 +1,4 @@
-﻿using SecretSantaEmailSender.Infraestructure.ScheaHandlers.Repositories;
+﻿using SecretSantaEmailSender.Infraestructure.SchemaHandlers.Repositories;
 
 namespace SecretSantaEmailSender.Infraestructure.SchemaHandlers.Services;
 
