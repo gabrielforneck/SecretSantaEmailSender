@@ -1,6 +1,6 @@
 ﻿using SecretSantaEmailSender.Infraestructure.ScheaHandlers.Repositories;
 
-namespace SecretSantaEmailSender.Infraestructure.ScheaHandlers.Services;
+namespace SecretSantaEmailSender.Infraestructure.SchemaHandlers.Services;
 
 public class ShemaHandlersServices : IShemaHandlersServices
 {

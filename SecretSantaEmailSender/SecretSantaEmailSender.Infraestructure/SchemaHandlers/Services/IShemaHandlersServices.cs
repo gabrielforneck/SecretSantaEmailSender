@@ -1,5 +1,5 @@
 ﻿
-namespace SecretSantaEmailSender.Infraestructure.ScheaHandlers.Services;
+namespace SecretSantaEmailSender.Infraestructure.SchemaHandlers.Services;
 
 public interface IShemaHandlersServices
 {

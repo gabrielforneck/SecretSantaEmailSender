@@ -1,6 +1,6 @@
 ﻿using SecretSantaEmailSender.Core.Database.Respositories.Interfaces;
 
-namespace SecretSantaEmailSender.Infraestructure.ScheaHandlers.Repositories;
+namespace SecretSantaEmailSender.Infraestructure.SchemaHandlers.Repositories;
 
 public interface ISchemaHandlerRepository : IRepository
 {

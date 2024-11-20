@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using SecretSantaEmailSender.Core.Database;
 
-namespace SecretSantaEmailSender.Infraestructure.ScheaHandlers.Repositories;
+namespace SecretSantaEmailSender.Infraestructure.SchemaHandlers.Repositories;
 
 public class SchemaHandlerRepository : ISchemaHandlerRepository
 {
