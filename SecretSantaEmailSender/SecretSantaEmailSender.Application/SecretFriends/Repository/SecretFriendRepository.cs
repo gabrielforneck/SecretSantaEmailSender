@@ -45,4 +45,17 @@ public class SecretFriendRepository : ISecretFriendRepository
         var command = new CommandDefinition(sql, new { secretFriendID }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
         await LocalDatabase.Connection.ExecuteAsync(command);
     }
+
+    public async Task DeleteBySecretSantaID(long secretSantaID, CancellationToken cancellationToken)
+    {
+        const string sql = @"delete from secret_friends
+                              where id in (select distinct secret_friends_to_delete.id
+                                             from secret_friends as secret_friends_to_delete
+                                            inner join raffles
+                                               on raffles.id = secret_friends_to_delete.raffle_id
+                                            where raffles.secret_santa_id = @secretSantaID)";
+
+        var command = new CommandDefinition(sql, new { secretSantaID }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        await LocalDatabase.Connection.ExecuteAsync(command);
+    }
 }

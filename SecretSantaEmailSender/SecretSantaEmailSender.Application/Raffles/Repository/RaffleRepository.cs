@@ -23,4 +23,13 @@ public class RaffleRepository : IRaffleRepository
         var command = new CommandDefinition(sql, raffle, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
         await LocalDatabase.Connection.ExecuteAsync(command);
     }
+
+    public async Task DeleteBySecretSantaID(long secretSantaID, CancellationToken cancellationToken)
+    {
+        const string sql = @"delete from raffles
+                              where secret_santa_id = @secretSantaID";
+
+        var command = new CommandDefinition(sql, new { secretSantaID }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        await LocalDatabase.Connection.ExecuteAsync(command);
+    }
 }

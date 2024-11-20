@@ -6,4 +6,5 @@ namespace SecretSantaEmailSender.Application.Raffles.Repository;
 public interface IRaffleRepository : IRepository
 {
     Task Insert(Raffle raffle, CancellationToken cancellationToken);
+    Task DeleteBySecretSantaID(long secretSantaID, CancellationToken cancellationToken);
 }
