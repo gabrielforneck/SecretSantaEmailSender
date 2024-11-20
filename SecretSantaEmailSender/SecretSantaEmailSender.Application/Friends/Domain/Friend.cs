@@ -1,4 +1,5 @@
-﻿namespace SecretSantaEmailSender.Application.Friends.Domain;
+﻿
+namespace SecretSantaEmailSender.Application.Friends.Domain;
 
 public class Friend
 {
@@ -26,4 +27,8 @@ public class Friend
         Email = email;
         DestinationLink = destinationLink;
     }
+
+    public override bool Equals(object? obj) => obj is Friend friend && ID == friend.ID;
+
+    public override int GetHashCode() => HashCode.Combine(ID);
 }

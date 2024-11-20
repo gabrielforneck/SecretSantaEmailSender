@@ -27,6 +27,20 @@ public class FriendRepository : IFriendRepository
         return await LocalDatabase.Connection.QuerySingleOrDefaultAsync<Friend>(command);
     }
 
+    public async Task<IEnumerable<Friend>> GetBySecretSantaID(long secretSantaID, CancellationToken cancellationToken)
+    {
+        const string sql = @"select friends.id as ID,
+                                    friends.secret_santa_id as SecretSantaID,
+                                    friends.name as Name,
+                                    friends.email as Email,
+                                    friends.destination_link as DestinationLink
+                               from friends
+                              where friends.secret_santa_id = @secretSantaID";
+
+        var command = new CommandDefinition(sql, new { secretSantaID }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        return await LocalDatabase.Connection.QueryAsync<Friend>(command);
+    }
+
     public async Task Insert(Friend friend, CancellationToken cancellationToken)
     {
         const string sql = @"insert into friends (secret_santa_id,
