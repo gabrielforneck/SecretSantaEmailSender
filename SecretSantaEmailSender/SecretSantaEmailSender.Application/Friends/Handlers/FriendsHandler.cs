@@ -76,7 +76,7 @@ public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IReques
 
         await _friendRepository.Delete(request.ID, cancellationToken);
 
-        await _friendRepository.LocalDatabase.CommitAsync();
+        await _friendRepository.LocalDatabase.CommitAsync(cancellationToken);
 
         return Result.Success();
     }

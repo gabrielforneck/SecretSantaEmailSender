@@ -27,7 +27,7 @@ public class SecretSantasHandler : IRequestHandler<CreateSecretSantaCommand, Res
 
         await _secretSantaRepository.Insert(secretSanta, cancellationToken);
 
-        await _secretSantaRepository.LocalDatabase.CommitAsync();
+        await _secretSantaRepository.LocalDatabase.CommitAsync(cancellationToken);
 
         return Result.Success();
     }
@@ -48,7 +48,7 @@ public class SecretSantasHandler : IRequestHandler<CreateSecretSantaCommand, Res
 
         await _secretSantaRepository.Update(secretSanta, cancellationToken);
 
-        await _secretSantaRepository.LocalDatabase.CommitAsync();
+        await _secretSantaRepository.LocalDatabase.CommitAsync(cancellationToken);
 
         return Result.Success();
     }
