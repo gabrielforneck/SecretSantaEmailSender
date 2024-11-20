@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SecretSantaEmailSender.Application.Email.Model.Enums;
+using SecretSantaEmailSender.Application.Emails.Model.Enums;
 using SecretSantaEmailSender.Core.Results;
 
 namespace SecretSantaEmailSender.Application.SecretSantas.Commands;

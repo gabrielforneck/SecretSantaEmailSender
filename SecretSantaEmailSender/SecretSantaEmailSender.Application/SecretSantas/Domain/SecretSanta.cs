@@ -1,4 +1,4 @@
-﻿using SecretSantaEmailSender.Application.Email.Model.Enums;
+﻿using SecretSantaEmailSender.Application.Emails.Model.Enums;
 
 namespace SecretSantaEmailSender.Application.SecretSantas.Domain;
 
