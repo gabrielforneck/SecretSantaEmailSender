@@ -3,7 +3,7 @@ using System.Data.SQLite;
 
 namespace SecretSantaEmailSender.Core.Database.Handler;
 
-public abstract class DatabaseConnectionHandler : IDisposable, IDatabaseConnectionHandler
+public abstract class DatabaseConnectionHandler : IDatabaseConnectionHandler
 {
     public IDbConnection Connection => _connection;
     public IDbTransaction? Transaction => _transaction;

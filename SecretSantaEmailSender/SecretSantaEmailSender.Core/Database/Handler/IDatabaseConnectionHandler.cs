@@ -2,7 +2,7 @@
 
 namespace SecretSantaEmailSender.Core.Database.Handler;
 
-public interface IDatabaseConnectionHandler
+public interface IDatabaseConnectionHandler : IDisposable
 {
     IDbConnection Connection { get; }
     IDbTransaction? Transaction { get; }
@@ -12,7 +12,6 @@ public interface IDatabaseConnectionHandler
     void Begin();
     void Commit();
     Task CommitAsync(CancellationToken? cancellationToken = null);
-    void Dispose();
     void Rollback();
     Task RollbackAsync(CancellationToken? cancellationToken = null);
 }
