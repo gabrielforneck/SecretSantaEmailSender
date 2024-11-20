@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace SecretSantaEmailSender.Core.EmailClient.Handler;
 
-public abstract class EmailClientHandler : IEmailClientHandler
+public class EmailClientHandler : IEmailClientHandler
 {
     public string Host => _host;
     public int Port => _port;
