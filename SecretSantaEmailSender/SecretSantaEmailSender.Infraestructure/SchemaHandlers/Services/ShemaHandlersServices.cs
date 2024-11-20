@@ -15,9 +15,6 @@ public class ShemaHandlersServices : IShemaHandlersServices
     {
         _schemaHandlerRepository.LocalDatabase.Begin();
 
-        //TODO: Por em arquivo config
-        await _schemaHandlerRepository.SetEncoding("UTF-16");
-
         await _schemaHandlerRepository.CreateSecretSantasTable();
 
         await _schemaHandlerRepository.CreateFriendsTable();

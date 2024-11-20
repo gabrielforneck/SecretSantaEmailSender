@@ -10,5 +10,4 @@ public interface ISchemaHandlerRepository : IRepository
     Task CreateSecretFriendsRafflesAndSecretFriendsUniqueIndex();
     Task CreateSecretFriendsTable();
     Task CreateSecretSantasTable();
-    Task SetEncoding(string encoding);
 }

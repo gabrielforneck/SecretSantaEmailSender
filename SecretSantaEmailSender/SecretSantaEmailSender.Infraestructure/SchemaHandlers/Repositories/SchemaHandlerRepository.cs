@@ -12,14 +12,6 @@ public class SchemaHandlerRepository : ISchemaHandlerRepository
         LocalDatabase = localDatabase;
     }
 
-    public async Task SetEncoding(string encoding)
-    {
-        const string sql = @"PRAGMA encoding = @encoding";
-
-        var commandDefinition = new CommandDefinition(sql, new { encoding }, transaction: LocalDatabase.Transaction);
-        await LocalDatabase.Connection.ExecuteAsync(commandDefinition);
-    }
-
     public async Task CreateSecretSantasTable()
     {
         const string sql = @"create table if not exists secret_santas (
