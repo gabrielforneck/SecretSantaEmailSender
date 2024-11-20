@@ -62,4 +62,13 @@ public class SecretSantaRepository : ISecretSantaRepository
         var command = new CommandDefinition(sql, secretSanta, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
         await LocalDatabase.Connection.ExecuteAsync(command);
     }
+
+    public async Task Delete(long secretSantaID, CancellationToken cancellationToken)
+    {
+        const string sql = @"delete from secret_santas
+                              where id = @secretSantaID";
+
+        var command = new CommandDefinition(sql, new { secretSantaID }, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);
+        await LocalDatabase.Connection.ExecuteAsync(command);
+    }
 }

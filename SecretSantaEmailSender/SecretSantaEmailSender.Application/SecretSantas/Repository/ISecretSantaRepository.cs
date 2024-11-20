@@ -8,5 +8,6 @@ namespace SecretSantaEmailSender.Application.SecretSantas.Repository
         Task<SecretSanta?> GetByID(long ID, CancellationToken cancellationToken);
         Task Insert(SecretSanta secretSanta, CancellationToken cancellationToken);
         Task Update(SecretSanta secretSanta, CancellationToken cancellationToken);
+        Task Delete(long secretSantaID, CancellationToken cancellationToken);
     }
 }
