@@ -1,5 +1,4 @@
-﻿using SecretSantaEmailSender.Frontend.Views.MainView.ViewModel;
-using System.Windows;
+﻿using System.Windows;
 
 namespace SecretSantaEmailSender.Frontend.Views.MainView.Windows;
 
@@ -8,9 +7,8 @@ namespace SecretSantaEmailSender.Frontend.Views.MainView.Windows;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow(IMainViewModel mainViewModel)
+    public MainWindow()
     {
         InitializeComponent();
-        DataContext = mainViewModel;
     }
 }
