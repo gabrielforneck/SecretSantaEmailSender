@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SecretSantaEmailSender.Frontend.DependencyInjections;
+using SecretSantaEmailSender.Frontend.Views.MainView.Windows;
 using SecretSantaEmailSender.Infraestructure.SchemaHandlers.Services;
 using System.IO;
 using System.Reflection;

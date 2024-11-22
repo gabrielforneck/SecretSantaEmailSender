@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SecretSantaEmailSender.Frontend.Views.MainView.Windows;
 
 namespace SecretSantaEmailSender.Frontend.DependencyInjections;
 
