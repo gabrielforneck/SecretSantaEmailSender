@@ -35,14 +35,14 @@ public class SecretFriendsServices : ISecretFriendsServices
         if (friendsToGenerateEven.Count > 0)
         {
             var generateEvenResult = GenerateEvenSecretFriends(friendsToGenerateEven, random: random);
-            if (generateEvenResult.IsFilure)
+            if (generateEvenResult.IsFailure)
                 return generateEvenResult;
 
             generatedSecretFriends.AddRange(generateEvenResult.Value!);
         }
 
         var genereateOddResult = GenerateOddSecretFriends(friendsList, random: random);
-        if (genereateOddResult.IsFilure)
+        if (genereateOddResult.IsFailure)
             return genereateOddResult;
 
         generatedSecretFriends.AddRange(genereateOddResult.Value!);

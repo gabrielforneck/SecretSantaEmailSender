@@ -27,7 +27,7 @@ public class SecretSantasHandler : IRequestHandler<CreateSecretSantaCommand, Res
     public async Task<Result> Handle(CreateSecretSantaCommand request, CancellationToken cancellationToken)
     {
         var requestValidation = request.Validate();
-        if (requestValidation.IsFilure)
+        if (requestValidation.IsFailure)
             return requestValidation;
 
         var secretSanta = SecretSanta.Create(request.Icon, request.Name, request.EmailDesignType, request.EmailDesign, request.LinkPlaceholder);
@@ -44,7 +44,7 @@ public class SecretSantasHandler : IRequestHandler<CreateSecretSantaCommand, Res
     public async Task<Result> Handle(UpdateSecretSantaCommand request, CancellationToken cancellationToken)
     {
         var requestValidation = request.Validate();
-        if (requestValidation.IsFilure)
+        if (requestValidation.IsFailure)
             return requestValidation;
 
         var secretSanta = await _secretSantaRepository.GetByID(request.ID, cancellationToken);
@@ -65,7 +65,7 @@ public class SecretSantasHandler : IRequestHandler<CreateSecretSantaCommand, Res
     public async Task<Result> Handle(DeleteSecretSantaCommand request, CancellationToken cancellationToken)
     {
         var validationResult = request.Validate();
-        if (validationResult.IsFilure)
+        if (validationResult.IsFailure)
             return validationResult;
 
         _secretSantaRepository.LocalDatabase.Begin();

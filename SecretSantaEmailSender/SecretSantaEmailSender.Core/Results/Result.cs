@@ -19,7 +19,7 @@ public class Result
     public static Result<T> Failure<T>(string message) => new(false, message, default);
 
     public bool IsSuccess => _isSuccess;
-    public bool IsFilure => !_isSuccess;
+    public bool IsFailure => !_isSuccess;
     public string Message => _message;
 }
 

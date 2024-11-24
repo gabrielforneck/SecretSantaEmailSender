@@ -24,7 +24,7 @@ public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IReques
     public async Task<Result> Handle(AddFriendCommand request, CancellationToken cancellationToken)
     {
         var requestValidation = request.Validate();
-        if (requestValidation.IsFilure)
+        if (requestValidation.IsFailure)
             return requestValidation;
 
         if (!await _secretSantasQueries.SecretSantaExists(request.SecretSantaID, cancellationToken))
@@ -44,7 +44,7 @@ public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IReques
     public async Task<Result> Handle(UpdateFriendCommand request, CancellationToken cancellationToken)
     {
         var requestValidation = request.Validate();
-        if (requestValidation.IsFilure)
+        if (requestValidation.IsFailure)
             return requestValidation;
 
         var friend = await _friendRepository.GetByID(request.ID, cancellationToken);
@@ -65,7 +65,7 @@ public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IReques
     public async Task<Result> Handle(DeleteFriendCommand request, CancellationToken cancellationToken)
     {
         var validationResult = request.Validate();
-        if (validationResult.IsFilure)
+        if (validationResult.IsFailure)
             return validationResult;
 
         _friendRepository.LocalDatabase.Begin();

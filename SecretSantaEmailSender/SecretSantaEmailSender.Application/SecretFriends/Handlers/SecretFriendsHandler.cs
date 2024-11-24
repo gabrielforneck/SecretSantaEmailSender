@@ -22,7 +22,7 @@ public class SecretFriendsHandler : IRequestHandler<SendEmailCommand, Result>, I
     public async Task<Result> Handle(SendEmailCommand request, CancellationToken cancellationToken)
     {
         var validationResult = request.Validate();
-        if (validationResult.IsFilure)
+        if (validationResult.IsFailure)
             return validationResult;
 
         var emailData = await _secretFriendsQueries.GetEmailData(request.SecretFriendID, cancellationToken);

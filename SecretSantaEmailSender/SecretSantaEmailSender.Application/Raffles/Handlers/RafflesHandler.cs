@@ -34,7 +34,7 @@ public class RafflesHandler : IRequestHandler<GenerateRaffleCommand, Result>
     public async Task<Result> Handle(GenerateRaffleCommand request, CancellationToken cancellationToken)
     {
         var requestValidation = request.Validate();
-        if (requestValidation.IsFilure)
+        if (requestValidation.IsFailure)
             return requestValidation;
 
         if (!await _secretSantasQueries.SecretSantaExists(request.SecretSantaID, cancellationToken))
@@ -43,7 +43,7 @@ public class RafflesHandler : IRequestHandler<GenerateRaffleCommand, Result>
         var friends = await _friendRepository.GetBySecretSantaID(request.SecretSantaID, cancellationToken);
         
         var generateResult = _secretFriendsServices.GenerateSecretFriends(friends);
-        if (generateResult.IsFilure)
+        if (generateResult.IsFailure)
             return generateResult;
 
         _raffleRepository.LocalDatabase.Begin();

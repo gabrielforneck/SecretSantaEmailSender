@@ -10,7 +10,7 @@ public class FilesHandler : IRequestHandler<GetFileContentCommand, Result<string
     public async Task<Result<string>> Handle(GetFileContentCommand request, CancellationToken cancellationToken)
     {
         var requestValidation = request.Validate();
-        if (requestValidation.IsFilure)
+        if (requestValidation.IsFailure)
             return await Task.FromResult(Result.Failure<string>(requestValidation.Message));
         
         return await Task.FromResult(FileHandler.GetFileContent(request.FilePath));
