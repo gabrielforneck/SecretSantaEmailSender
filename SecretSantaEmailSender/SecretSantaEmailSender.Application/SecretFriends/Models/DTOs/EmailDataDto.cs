@@ -9,5 +9,5 @@ public class EmailDataDto
     public EEmailDesignType EmailDesignType { get; set; }
     public string LinkPlaceholder { get; set; } = string.Empty;
     public string FriendEmail { get; set; } = string.Empty;
-    public string SecretFriendUrl { get; set; } = string.Empty;
+    public string SecretFriendLink { get; set; } = string.Empty;
 }

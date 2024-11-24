@@ -20,7 +20,7 @@ public class SecretFriendsQueries : ISecretFriendsQueries
                                     secret_santas.email_design_type as EmailDesignType,
                                     secret_santas.link_placeholder as LinkPlaceholder,
                                     friend.email as FriendEmail,
-                                    secret_friend.destination_url as SecretFriendUrl
+                                    secret_friend.destination_link as SecretFriendLink
                                from secret_friends
                               inner join raffles
                                  on raffles.id = secret_friends.raffle_id

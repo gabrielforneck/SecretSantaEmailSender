@@ -29,7 +29,7 @@ public class SecretFriendsHandler : IRequestHandler<SendEmailCommand, Result>, I
         if (emailData == null)
             return Result.Failure("Não foi possível carregar os dados para enviar o e-mail de amigo secreto.");
 
-        emailData.EmailDesign = emailData.EmailDesign.Replace(emailData.LinkPlaceholder, emailData.SecretFriendUrl);
+        emailData.EmailDesign = emailData.EmailDesign.Replace(emailData.LinkPlaceholder, emailData.SecretFriendLink);
 
         var emailBuilder = new EmailBuilder()
             .SetSubject(emailData.SecretSantaName)
