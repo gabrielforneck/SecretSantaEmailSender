@@ -27,6 +27,6 @@ public class ShemaHandlersServices : IShemaHandlersServices
 
         await _schemaHandlerRepository.CreateSecretFriendsRafflesAndSecretFriendsUniqueIndex();
 
-        await _schemaHandlerRepository.LocalDatabase.CommitAsync();
+        await _schemaHandlerRepository.LocalDatabase.CommitAsync(CancellationToken.None);
     }
 }
