@@ -9,13 +9,10 @@ public class FilesHandler : IRequestHandler<GetFileContentCommand, Result<string
 {
     public async Task<Result<string>> Handle(GetFileContentCommand request, CancellationToken cancellationToken)
     {
-        return await Task.Run(() =>
-        {
-            var requestValidation = request.Validate();
-            if (requestValidation.IsFilure)
-                return Result.Failure<string>(requestValidation.Message);
-
-            return FileHandler.GetFileContent(request.FilePath);
-        });
+        var requestValidation = request.Validate();
+        if (requestValidation.IsFilure)
+            return await Task.FromResult(Result.Failure<string>(requestValidation.Message));
+        
+        return await Task.FromResult(FileHandler.GetFileContent(request.FilePath));
     }
 }

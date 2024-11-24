@@ -8,7 +8,7 @@ using SecretSantaEmailSender.Core.Results;
 
 namespace SecretSantaEmailSender.Application.SecretFriends.Handlers;
 
-public class SecretFriendsHandler : IRequestHandler<SendEmailCommand, Result>
+public class SecretFriendsHandler : IRequestHandler<SendEmailCommand, Result>, IRequestHandler<GetSecretFriendsCommand, Result<IEnumerable<long>>>
 {
     private readonly ISecretFriendsQueries _secretFriendsQueries;
     private readonly IEmailClientHandler _emailClientHandler;
@@ -40,4 +40,6 @@ public class SecretFriendsHandler : IRequestHandler<SendEmailCommand, Result>
 
         return Result.Success();
     }
+
+    public async Task<Result<IEnumerable<long>>> Handle(GetSecretFriendsCommand request, CancellationToken cancellationToken) => Result.Success(await _secretFriendsQueries.GetSecretFriendsIdsByRaffleID(request.RaffleID, cancellationToken));
 }

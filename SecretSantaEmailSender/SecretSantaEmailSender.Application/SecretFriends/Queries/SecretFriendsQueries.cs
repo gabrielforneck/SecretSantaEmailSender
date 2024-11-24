@@ -35,4 +35,14 @@ public class SecretFriendsQueries : ISecretFriendsQueries
         var command = new CommandDefinition(sql, new { secretFriendID }, transaction: _localDatabase.Transaction, cancellationToken: cancellationToken);
         return await _localDatabase.Connection.QuerySingleOrDefaultAsync<EmailDataDto>(command);
     }
+
+    public async Task<IEnumerable<long>> GetSecretFriendsIdsByRaffleID(long raffleID, CancellationToken cancellationToken)
+    {
+        const string sql = @"select secret_friends.id
+                               from secret_friends
+                              where secret_friends.raffle_id = @raffleID";
+
+        var command = new CommandDefinition(sql, new { raffleID }, transaction: _localDatabase.Transaction, cancellationToken: cancellationToken);
+        return await _localDatabase.Connection.QueryAsync<long>(command);
+    }
 }

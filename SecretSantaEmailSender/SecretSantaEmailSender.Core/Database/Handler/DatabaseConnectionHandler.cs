@@ -30,26 +30,34 @@ public abstract class DatabaseConnectionHandler : IDatabaseConnectionHandler
 
     public void Commit()
     {
-        _transaction?.Commit();
+        _transaction!.Commit();
+        _transaction.Dispose();
+        _transaction = null;
         _inTransaction = false;
     }
 
-    public async Task CommitAsync(CancellationToken? cancellationToken = null)
+    public async Task CommitAsync(CancellationToken cancellationToken)
     {
-        await _transaction!.CommitAsync(cancellationToken ?? CancellationToken.None);
+        await _transaction!.CommitAsync(cancellationToken);
+        await _transaction.DisposeAsync();
+        _transaction = null;
 
         _inTransaction = false;
     }
 
     public void Rollback()
     {
-        _transaction?.Rollback();
+        _transaction!.Rollback();
+        _transaction.Dispose();
+        _transaction = null;
         _inTransaction = false;
     }
 
-    public async Task RollbackAsync(CancellationToken? cancellationToken = null)
+    public async Task RollbackAsync(CancellationToken cancellationToken)
     {
-        await _transaction!.RollbackAsync(cancellationToken ?? CancellationToken.None);
+        await _transaction!.RollbackAsync(cancellationToken);
+        await _transaction.DisposeAsync();
+        _transaction = null;
 
         _inTransaction = false;
     }

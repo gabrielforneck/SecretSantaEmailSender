@@ -20,8 +20,8 @@ public class SecretFriendRepository : ISecretFriendRepository
                                                          secret_friend_id,
                                                          email_sent_at)
                                                  values (@RaffleID,
-                                                         @FriendID
-                                                         @SecretFriendID
+                                                         @FriendID,
+                                                         @SecretFriendID,
                                                          @EmailSentAt)";
 
         var command = new CommandDefinition(sql, secretFriend, transaction: LocalDatabase.Transaction, cancellationToken: cancellationToken);

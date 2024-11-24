@@ -17,6 +17,6 @@ public class DatabaseQueries : IDatabaseQueries
         const string sql = @"select last_insert_rowid()";
 
         var command = new CommandDefinition(sql, transaction: _localDatabase.Transaction, cancellationToken: cancellationToken);
-        return await _localDatabase.Connection.QuerySingleOrDefaultAsync(command);
+        return await _localDatabase.Connection.QuerySingleOrDefaultAsync<long>(command);
     }
 }

@@ -6,5 +6,5 @@ namespace SecretSantaEmailSender.Application.SecretFriends.Services;
 
 public interface ISecretFriendsServices
 {
-    Result<IList<SecretFriendDto>> GenerateSecretFriends(IEnumerable<Friend> friends);
+    Result<IList<SecretFriendDto>> GenerateSecretFriends(IEnumerable<Friend> friends, Random? random = null);
 }

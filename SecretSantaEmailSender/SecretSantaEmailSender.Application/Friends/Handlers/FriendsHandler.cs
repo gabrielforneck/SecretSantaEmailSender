@@ -3,22 +3,22 @@ using SecretSantaEmailSender.Application.Friends.Commands;
 using SecretSantaEmailSender.Application.Friends.Domain;
 using SecretSantaEmailSender.Application.Friends.Repository;
 using SecretSantaEmailSender.Application.SecretFriends.Repository;
-using SecretSantaEmailSender.Application.SecretSantas.Repository;
+using SecretSantaEmailSender.Application.SecretSantas.Queries;
 using SecretSantaEmailSender.Core.Results;
 
 namespace SecretSantaEmailSender.Application.Friends.Handlers;
 
 public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IRequestHandler<UpdateFriendCommand, Result>, IRequestHandler<DeleteFriendCommand, Result>
 {
-    private readonly ISecretSantaRepository _secretSantaRepository;
     private readonly IFriendRepository _friendRepository;
     private readonly ISecretFriendRepository _secretFriendRepository;
+    private readonly ISecretSantasQueries _secretSantasQueries;
 
-    public FriendsHandler(ISecretSantaRepository secretSantaRepository, IFriendRepository friendRepository, ISecretFriendRepository secretFriendRepository)
+    public FriendsHandler(IFriendRepository friendRepository, ISecretFriendRepository secretFriendRepository, ISecretSantasQueries secretSantasQueries)
     {
-        _secretSantaRepository = secretSantaRepository;
         _friendRepository = friendRepository;
         _secretFriendRepository = secretFriendRepository;
+        _secretSantasQueries = secretSantasQueries;
     }
 
     public async Task<Result> Handle(AddFriendCommand request, CancellationToken cancellationToken)
@@ -27,11 +27,10 @@ public class FriendsHandler : IRequestHandler<AddFriendCommand, Result>, IReques
         if (requestValidation.IsFilure)
             return requestValidation;
 
-        var secretSanta = await _secretSantaRepository.GetByID(request.SecretSantaID, cancellationToken);
-        if (secretSanta == null)
+        if (!await _secretSantasQueries.SecretSantaExists(request.SecretSantaID, cancellationToken))
             return Result.Failure("Amigo secreto não encontrado.");
 
-        var newFriend = Friend.Create(secretSanta.ID, request.Name, request.Email, request.DestinationLink);
+        var newFriend = Friend.Create(request.SecretSantaID, request.Name, request.Email, request.DestinationLink);
 
         _friendRepository.LocalDatabase.Begin();
 

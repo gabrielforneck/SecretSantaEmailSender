@@ -11,7 +11,7 @@ public interface IDatabaseConnectionHandler : IDisposable
 
     void Begin();
     void Commit();
-    Task CommitAsync(CancellationToken? cancellationToken = null);
+    Task CommitAsync(CancellationToken cancellationToken);
     void Rollback();
-    Task RollbackAsync(CancellationToken? cancellationToken = null);
+    Task RollbackAsync(CancellationToken cancellationToken);
 }

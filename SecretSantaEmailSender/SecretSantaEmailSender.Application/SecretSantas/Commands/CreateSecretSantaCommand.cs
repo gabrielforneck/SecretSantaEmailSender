@@ -26,7 +26,7 @@ public class CreateSecretSantaCommand : IRequest<Result>
         if (string.IsNullOrWhiteSpace(Name))
             return Result.Failure("Nome inválido.");
 
-        if (Enum.IsDefined(EmailDesignType))
+        if (!Enum.IsDefined(EmailDesignType))
             return Result.Failure("Tipo do design do e-mail inválido.");
 
         if (string.IsNullOrWhiteSpace(EmailDesign))
