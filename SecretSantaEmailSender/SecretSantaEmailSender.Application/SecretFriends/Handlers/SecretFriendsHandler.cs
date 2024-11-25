@@ -36,7 +36,9 @@ public class SecretFriendsHandler : IRequestHandler<SendEmailCommand, Result>, I
             .SetBody(emailData.EmailDesign, bodyType: emailData.EmailDesignType.ToEmailBodyType())
             .AddTo(emailData.FriendEmail);
 
-        await _emailClientHandler.Send(emailBuilder.Build(), cancellationToken);
+        var sendResult = await _emailClientHandler.Send(emailBuilder.Build(), cancellationToken);
+        if (sendResult.IsFailure)
+            return sendResult;
 
         return Result.Success();
     }

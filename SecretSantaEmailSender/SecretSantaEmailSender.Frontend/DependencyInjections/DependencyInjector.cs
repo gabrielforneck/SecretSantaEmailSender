@@ -11,7 +11,7 @@ public static class DependencyInjector
 
         DatabaseInjection.RegisterServices(services, configuration);
 
-        EmailClientInjection.RegisterServices(services, configuration);
+        EmailClientInjection.RegisterServices(services);
 
         QueryInjection.RegisterServices(services);
 

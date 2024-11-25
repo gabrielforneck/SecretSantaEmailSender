@@ -1,61 +1,63 @@
-﻿using SecretSantaEmailSender.Core.EmailClient.Emails;
-using System.Net;
-using System.Net.Mail;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.Extensions.Configuration;
+using MimeKit;
+using SecretSantaEmailSender.Core.Configurations.Extensions;
+using SecretSantaEmailSender.Core.EmailClient.Emails;
+using SecretSantaEmailSender.Core.EmailClient.Extensions;
+using SecretSantaEmailSender.Core.Results;
 
 namespace SecretSantaEmailSender.Core.EmailClient.Handler;
 
 public class EmailClientHandler : IEmailClientHandler
 {
-    public string Host => _host;
-    public int Port => _port;
-    public string From => _from;
-    public int Timeout => _timeout;
+    private readonly IConfiguration _configuration;
 
-
-    private readonly string _host;
-    private readonly int _port;
-    private readonly string _from;
-    private readonly int _timeout;
-    private readonly SmtpClient _smtpClient;
-
-    public EmailClientHandler(string host, int port, string from, string password, int timeout = 30000)
+    public EmailClientHandler(IConfiguration configuration)
     {
-        _host = host;
-        _port = port;
-        _from = from;
-        _timeout = timeout;
-
-        _smtpClient = new SmtpClient()
-        {
-            Host = host,
-            Port = port,
-            EnableSsl = true,
-            DeliveryMethod = SmtpDeliveryMethod.Network,
-            Credentials = new NetworkCredential(from, password),
-            Timeout = timeout
-        };
+        _configuration = configuration;
     }
 
-    public async Task Send(IEmail email, CancellationToken cancellationToken)
+    public async Task<Result> Send(IEmail email, CancellationToken cancellationToken)
     {
-        var message = new MailMessage
-        {
-            From = new(_from)
-        };
+        var emailConfigurationResult = _configuration.GetEmailConfiguration();
+        if (emailConfigurationResult.IsFailure)
+            return emailConfigurationResult;
+
+        var emailConfiguration = emailConfigurationResult.Value!;
+
+        var message = new MimeMessage();
+
+        message.From.Add(new MailboxAddress(string.Empty, emailConfiguration.From));
 
         foreach (var to in email.To)
-            message.To.Add(to);
+            message.To.Add(new MailboxAddress(string.Empty, to));
 
         foreach (var cc in email.Cc)
-            message.CC.Add(cc);
+            message.Cc.Add(new MailboxAddress(string.Empty, cc));
 
-        await Task.Run(() => _smtpClient.Send(message), cancellationToken);
-    }
+        message.Subject = email.Subject;
+        message.Body = new TextPart(format: email.BodyType.ToTextFormat()) { Text = email.Body };
 
-    public void Dispose()
-    {
-        _smtpClient?.Dispose();
+        var client = new SmtpClient()
+        {
+            Timeout = emailConfiguration.Timeout
+        };
 
-        GC.SuppressFinalize(this);
+        try
+        {
+            client.ConnectAsync(emailConfiguration.Host, emailConfiguration.Port, options: SecureSocketOptions.Auto, cancellationToken: cancellationToken).GetAwaiter().GetResult();
+            client.AuthenticateAsync(emailConfiguration.From, emailConfiguration.Password, cancellationToken: cancellationToken).GetAwaiter().GetResult();
+
+            client.SendAsync(message).GetAwaiter().GetResult();
+            client.DisconnectAsync(true, cancellationToken: cancellationToken).GetAwaiter().GetResult();
+            //TODO: Ver porque o await não funciona
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure(ex.Message);
+        }
+
+        return Result.Success();
     }
 }

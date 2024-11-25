@@ -21,6 +21,7 @@ public class EmailBuilder
     public EmailBuilder SetBody(string body, EEmailBodyType bodyType = EEmailBodyType.Raw)
     {
         Body = body;
+        BodyType = bodyType;
         return this;
     }
 
